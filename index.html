@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>20分钟正念内观练习</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+  h1 {
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    padding: 18px 16px 14px;
+    color: #1d1d1f;
+  }
+
+  /* 时间轴 - 固定在顶部 */
+  .timeline-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #f5f5f7;
+    padding: 0 16px 12px;
+  }
+  .timeline {
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 36px;
+  }
+  .tl-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tl-seg:active { opacity: 0.7; }
+  .tl-seg.active { outline: 2px solid #1d1d1f; outline-offset: -2px; }
+
+  /* 阶段卡片 */
+  .phase {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #e5e5ea;
+    margin: 0 16px 10px;
+    overflow: hidden;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .phase-dot {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .phase-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d1d1f;
+    flex: 1;
+  }
+  .phase-time {
+    font-size: 12px;
+    color: #6e6e73;
+    margin-top: 2px;
+  }
+  .chevron {
+    font-size: 12px;
+    color: #c7c7cc;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .phase.open .chevron { transform: rotate(180deg); }
+
+  .phase-body {
+    font-size: 14px;
+    color: #3a3a3c;
+    line-height: 1.75;
+    padding: 0 16px 14px 66px;
+    display: none;
+  }
+  .phase.open .phase-body { display: block; }
+  .phase-body p { margin-bottom: 8px; }
+  .phase-body p:last-child { margin-bottom: 0; }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-right: 4px;
+    font-weight: 600;
+  }
+  .note-box {
+    background: #f5f5f7;
+    border-radius: 10px;
+    border: 1px solid #e5e5ea;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #6e6e73;
+    line-height: 1.65;
+  }
+  .divider-label {
+    font-size: 11px;
+    color: #6e6e73;
+    padding: 14px 16px 4px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  /* 颜色 */
+  .blue-dot   { background: #e8f0fe; color: #1a73e8; }
+  .gray-dot   { background: #f1f3f4; color: #5f6368; }
+  .yellow-dot { background: #fef9e7; color: #b7791f; }
+  .green-dot  { background: #e6f4ea; color: #1e7e34; }
+
+  .tl-blue   { background: #e8f0fe; color: #1a73e8; width: 20%; }
+  .tl-gray1  { background: #f1f3f4; color: #5f6368; width: 12%; font-size: 10px; }
+  .tl-yellow { background: #fef9e7; color: #b7791f; width: 36%; }
+  .tl-gray2  { background: #f1f3f4; color: #5f6368; width: 12%; font-size: 10px; }
+  .tl-green  { background: #e6f4ea; color: #1e7e34; width: 20%; }
+
+  .tag-yellow { background: #fef9e7; color: #b7791f; }
+  .tag-blue   { background: #e8f0fe; color: #1a73e8; }
+  .tag-green  { background: #e6f4ea; color: #1e7e34; }
+</style>
+</head>
+<body>
+
+<h1>20分钟正念内观练习</h1>
+
+<div class="timeline-wrap">
+  <div class="timeline">
+    <div class="tl-seg tl-blue"   onclick="jumpTo('p1')">落地 4'</div>
+    <div class="tl-seg tl-gray1"  onclick="jumpTo('p2')">过渡 2'</div>
+    <div class="tl-seg tl-yellow" onclick="jumpTo('p3')">观察 8'</div>
+    <div class="tl-seg tl-gray2"  onclick="jumpTo('p4')">深入 4'</div>
+    <div class="tl-seg tl-green"  onclick="jumpTo('p5')">收尾 4'</div>
+  </div>
+</div>
+
+<div class="phase open" id="p1">
+  <div class="phase-header" onclick="toggle('p1')">
+    <div class="phase-dot blue-dot">4'</div>
+    <div style="flex:1">
+      <div class="phase-title">第一阶段：身体落地</div>
+      <div class="phase-time">把注意力从叙事层拉回感知层</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="phase-body">
+    <p>坐定，闭眼。不刻意放松，只是<strong>注意</strong>——头、肩、胸、腹、手，依次扫过。</p>
+    <p>如果发现自己在想「今天要做什么」或「昨天那件事」，不需要制止，只是认出：<em>「我现在在想事情」</em>，然后回到身体感知。</p>
+    <div class="note-box">睡醒后自我防御尚未全面激活，这是一天中心理结构最松动的窗口。这一步是在用身体感知「占住」那个窗口，而不是让手机先进来填满它。</div>
+  </div>
+</div>
+
+<div class="phase" id="p2">
+  <div class="phase-header" onclick="toggle('p2')">
+    <div class="phase-dot gray-dot">2'</div>
+    <div style="flex:1">
+      <div class="phase-title">过渡：找到一个时刻</div>
+      <div class="phase-time">选材，不分析</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="phase-body">
+    <p>在脑海里找一个<strong>昨天或最近真实发生的时刻</strong>——不必是大事，可以是一个让你有点不舒服、有点紧的小场景。</p>
+    <p>找到了就停在那里，不要开始解释它，只是把画面留在那里。</p>
+  </div>
+</div>
+
+<div class="phase" id="p3">
+  <div class="phase-header" onclick="toggle('p3')">
+    <div class="phase-dot yellow-dot">8'</div>
+    <div style="flex:1">
+      <div class="phase-title">第二阶段：结构观察（核心）</div>
+      <div class="phase-time">只描述，不解释——让结构在场</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="phase-body">
+    <p>围绕这个时刻，依次问自己三个问题，每个停留约2分钟：</p>
+    <p><span class="tag tag-yellow">超我</span><strong>「在那个时刻，我对自己说了什么？」</strong><br>听那个内在声音——是批评、是要求、是比较？不评判它，只是听见它说了什么。</p>
+    <p><span class="tag tag-blue">自我</span><strong>「我的自我是怎么回应的？」</strong><br>顺从了？对抗了？逃开了？用什么方式——刷手机、沉默、解释、忙碌？</p>
+    <p><span class="tag tag-green">原发</span><strong>「在这个反应的最底下，有什么感受？」</strong><br>不是想法，是感受——羞耻？恐惧？悲伤？孤独？哪怕只是隐约感觉到也算。</p>
+    <div class="note-box">如果某一问「什么都没有」——这本身就是信息。空白和麻木是压抑防御在工作，不是练习失败了。把「我感觉不到什么」本身记下来。</div>
+  </div>
+</div>
+
+<div class="phase" id="p4">
+  <div class="phase-header" onclick="toggle('p4')">
+    <div class="phase-dot gray-dot">4'</div>
+    <div style="flex:1">
+      <div class="phase-title">深入：停在原发情绪里</div>
+      <div class="phase-time">不试图解决，只是陪它在那里</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="phase-body">
+    <p>如果在第三个问题里感觉到了某个原发情绪，就把注意力留在那个感受上。</p>
+    <p>不需要知道它从哪里来，不需要「处理」它——只是允许它在那里，感觉它在身体的哪个部位，是什么质地。</p>
+    <p>如果情绪升起来了，不要压它，也不要顺着它跑，只是<em>见证</em>它在发生。</p>
+  </div>
+</div>
+
+<div class="phase" id="p5">
+  <div class="phase-header" onclick="toggle('p5')">
+    <div class="phase-dot green-dot">4'</div>
+    <div style="flex:1">
+      <div class="phase-title">第三阶段：承载与收尾</div>
+      <div class="phase-time">不总结，让它悬着</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="phase-body">
+    <p>把注意力回到呼吸上，做三次自然的深呼吸。</p>
+    <p>不需要得出任何结论，不需要「解决」刚才看到的东西——只是让它就那样存在着。</p>
+    <p>睁眼后，花<strong>不超过3句话</strong>写下来：</p>
+    <div class="note-box">
+      <strong>三句话记录模板：</strong><br><br>
+      ① 今天的时刻是：＿＿＿<br>
+      ② 超我的声音是：＿＿＿ / 自我的应对是：＿＿＿<br>
+      ③ 底下的感受（或：今天感觉不到什么）：＿＿＿
+    </div>
+  </div>
+</div>
+
+<div class="phase" id="p6">
+  <div class="phase-header" onclick="toggle('p6')">
+    <div class="phase-dot" style="background:#f5f5f7;color:#6e6e73;font-size:18px;">📱</div>
+    <div style="flex:1">
+      <div class="phase-title">关于手机的衔接</div>
+      <div class="phase-time">顺序建议</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="phase-body" style="padding-left:16px">
+    <div class="note-box">
+      <strong>顺序建议：</strong>醒来 → 不碰手机 → 洗漱 → 坐下练习20分钟 → 然后可以看手机<br><br>
+      这不是用意志力对抗手机，而是在你和手机之间建一道门。练习本身成为第一件事，手机变成第二件事——顺序变了，触发链就变了。<br><br>
+      <strong>如果某天做不到：</strong>哪怕只做第一阶段的4分钟身体落地，也比直接刷手机要好。不要用「今天没做完」来给自己定罪——那是超我在工作，可以把它也作为今天的观察材料。
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function jumpTo(id) {
+  const el = document.getElementById(id);
+  el.classList.add('open');
+  setTimeout(() => {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+// 记录功能
+const STORAGE_KEY = 'mindfulness_records';
+
+function getRecords() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+
+function saveRecord() {
+  const moment = document.getElementById('rec-moment').value.trim();
+  const superego = document.getElementById('rec-superego').value.trim();
+  const ego = document.getElementById('rec-ego').value.trim();
+  const feeling = document.getElementById('rec-feeling').value.trim();
+  if (!moment && !superego && !ego && !feeling) return;
+  const records = getRecords();
+  const now = new Date();
+  const dateStr = now.getFullYear() + '/' +
+    String(now.getMonth()+1).padStart(2,'0') + '/' +
+    String(now.getDate()).padStart(2,'0') + ' ' +
+    String(now.getHours()).padStart(2,'0') + ':' +
+    String(now.getMinutes()).padStart(2,'0');
+  records.unshift({ date: dateStr, moment, superego, ego, feeling });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  document.getElementById('rec-moment').value = '';
+  document.getElementById('rec-superego').value = '';
+  document.getElementById('rec-ego').value = '';
+  document.getElementById('rec-feeling').value = '';
+  renderRecords();
+  document.getElementById('save-tip').style.display = 'block';
+  setTimeout(() => document.getElementById('save-tip').style.display = 'none', 1500);
+}
+
+function deleteRecord(index) {
+  const records = getRecords();
+  records.splice(index, 1);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  renderRecords();
+}
+
+function renderRecords() {
+  const records = getRecords();
+  const container = document.getElementById('records-list');
+  if (records.length === 0) {
+    container.innerHTML = '<p style="color:#c7c7cc;font-size:13px;text-align:center;padding:16px 0">还没有记录</p>';
+    return;
+  }
+  container.innerHTML = records.map((r, i) => `
+    <div style="background:#f5f5f7;border-radius:10px;padding:12px 14px;margin-bottom:10px;position:relative">
+      <div style="font-size:11px;color:#6e6e73;margin-bottom:8px;font-weight:500">${r.date}</div>
+      ${r.moment   ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#6e6e73">时刻：</span>${r.moment}</p>` : ''}
+      ${r.superego  ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#b7791f">超我：</span>${r.superego}</p>` : ''}
+      ${r.ego       ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#1a73e8">自我：</span>${r.ego}</p>` : ''}
+      ${r.feeling   ? `<p style="font-size:13px;margin-bottom:0"><span style="color:#1e7e34">感受：</span>${r.feeling}</p>` : ''}
+      <button onclick="deleteRecord(${i})" style="position:absolute;top:10px;right:10px;background:none;border:none;color:#c7c7cc;font-size:16px;cursor:pointer;padding:2px 6px">×</button>
+    </div>
+  `).join('');
+}
+
+window.onload = function() {
+  renderRecords();
+  // 让记录和历史区域的toggle也能工作
+  document.getElementById('prec') && null;
+};
+</script>
+
+<!-- 记录区域 -->
+<div style="margin:10px 16px 0;background:#fff;border-radius:14px;border:1px solid #e5e5ea;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer" onclick="var el=document.getElementById('prec');el.style.display=el.style.display==='none'?'block':'none'">
+    <div style="width:38px;height:38px;border-radius:50%;background:#f0f0f5;color:#5856d6;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">📝</div>
+    <div style="flex:1">
+      <div style="font-size:15px;font-weight:600;color:#1d1d1f">今日觉察记录</div>
+      <div style="font-size:12px;color:#6e6e73;margin-top:2px">记录后可回看历史</div>
+    </div>
+    <div style="font-size:12px;color:#c7c7cc">▼</div>
+  </div>
+  <div id="prec" style="display:none;padding:0 16px 16px">
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:#6e6e73;display:block;margin-bottom:4px">① 今天的时刻是</label>
+      <textarea id="rec-moment" rows="2" placeholder="描述那个场景…" style="width:100%;border:1px solid #e5e5ea;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;resize:none;outline:none;color:#1d1d1f"></textarea>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:#b7791f;display:block;margin-bottom:4px">② 超我的声音是</label>
+      <textarea id="rec-superego" rows="2" placeholder="内在批评、要求、比较…" style="width:100%;border:1px solid #e5e5ea;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;resize:none;outline:none;color:#1d1d1f"></textarea>
+    </div>
+    <div style="margin-bottom:12px">
+      <label style="font-size:12px;color:#1a73e8;display:block;margin-bottom:4px">② 自我的应对是</label>
+      <textarea id="rec-ego" rows="2" placeholder="顺从、对抗、逃开…" style="width:100%;border:1px solid #e5e5ea;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;resize:none;outline:none;color:#1d1d1f"></textarea>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:12px;color:#1e7e34;display:block;margin-bottom:4px">③ 底下的感受</label>
+      <textarea id="rec-feeling" rows="2" placeholder="羞耻、恐惧、悲伤、孤独…或感觉不到什么" style="width:100%;border:1px solid #e5e5ea;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;resize:none;outline:none;color:#1d1d1f"></textarea>
+    </div>
+    <button onclick="saveRecord()" style="width:100%;background:#5856d6;color:#fff;border:none;border-radius:10px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">保存记录</button>
+    <div id="save-tip" style="display:none;text-align:center;color:#1e7e34;font-size:13px;margin-top:8px">已保存 ✓</div>
+  </div>
+</div>
+
+<!-- 历史记录 -->
+<div style="margin:10px 16px 0;background:#fff;border-radius:14px;border:1px solid #e5e5ea;overflow:hidden">
+  <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer" onclick="var el=document.getElementById('phist');el.style.display=el.style.display==='none'?'block':'none'">
+    <div style="width:38px;height:38px;border-radius:50%;background:#f0f0f5;color:#5856d6;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🗂️</div>
+    <div style="flex:1">
+      <div style="font-size:15px;font-weight:600;color:#1d1d1f">历史记录</div>
+      <div style="font-size:12px;color:#6e6e73;margin-top:2px">所有觉察记录</div>
+    </div>
+    <div style="font-size:12px;color:#c7c7cc">▼</div>
+  </div>
+  <div id="phist" style="display:none;padding:0 16px 16px">
+    <div id="records-list"></div>
+  </div>
+</div>
+
+</body>
+</html>
