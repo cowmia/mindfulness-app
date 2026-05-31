@@ -23,8 +23,6 @@
     padding: 18px 16px 14px;
     color: #1d1d1f;
   }
-
-  /* 时间轴 - 固定在顶部 */
   .timeline-wrap {
     position: sticky;
     top: 0;
@@ -50,8 +48,6 @@
   }
   .tl-seg:active { opacity: 0.7; }
   .tl-seg.active { outline: 2px solid #1d1d1f; outline-offset: -2px; }
-
-  /* 阶段卡片 */
   .phase {
     background: #fff;
     border-radius: 14px;
@@ -79,25 +75,10 @@
     font-weight: 600;
     flex-shrink: 0;
   }
-  .phase-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1d1d1f;
-    flex: 1;
-  }
-  .phase-time {
-    font-size: 12px;
-    color: #6e6e73;
-    margin-top: 2px;
-  }
-  .chevron {
-    font-size: 12px;
-    color: #c7c7cc;
-    transition: transform 0.25s;
-    flex-shrink: 0;
-  }
+  .phase-title { font-size: 15px; font-weight: 600; color: #1d1d1f; flex: 1; }
+  .phase-time { font-size: 12px; color: #6e6e73; margin-top: 2px; }
+  .chevron { font-size: 12px; color: #c7c7cc; transition: transform 0.25s; flex-shrink: 0; }
   .phase.open .chevron { transform: rotate(180deg); }
-
   .phase-body {
     font-size: 14px;
     color: #3a3a3c;
@@ -108,15 +89,7 @@
   .phase.open .phase-body { display: block; }
   .phase-body p { margin-bottom: 8px; }
   .phase-body p:last-child { margin-bottom: 0; }
-
-  .tag {
-    display: inline-block;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 5px;
-    margin-right: 4px;
-    font-weight: 600;
-  }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 5px; margin-right: 4px; font-weight: 600; }
   .note-box {
     background: #f5f5f7;
     border-radius: 10px;
@@ -127,30 +100,112 @@
     color: #6e6e73;
     line-height: 1.65;
   }
-  .divider-label {
-    font-size: 11px;
-    color: #6e6e73;
-    padding: 14px 16px 4px;
-    font-weight: 600;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-  }
-
-  /* 颜色 */
   .blue-dot   { background: #e8f0fe; color: #1a73e8; }
   .gray-dot   { background: #f1f3f4; color: #5f6368; }
   .yellow-dot { background: #fef9e7; color: #b7791f; }
   .green-dot  { background: #e6f4ea; color: #1e7e34; }
-
   .tl-blue   { background: #e8f0fe; color: #1a73e8; width: 20%; }
   .tl-gray1  { background: #f1f3f4; color: #5f6368; width: 12%; font-size: 10px; }
   .tl-yellow { background: #fef9e7; color: #b7791f; width: 36%; }
   .tl-gray2  { background: #f1f3f4; color: #5f6368; width: 12%; font-size: 10px; }
   .tl-green  { background: #e6f4ea; color: #1e7e34; width: 20%; }
-
   .tag-yellow { background: #fef9e7; color: #b7791f; }
   .tag-blue   { background: #e8f0fe; color: #1a73e8; }
   .tag-green  { background: #e6f4ea; color: #1e7e34; }
+
+  /* 计时器区域 */
+  .timer-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid #e5e5ea;
+    margin: 0 16px 14px;
+    padding: 18px 16px 16px;
+    text-align: center;
+  }
+  .timer-phase-label {
+    font-size: 12px;
+    color: #6e6e73;
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+  .timer-display {
+    font-size: 52px;
+    font-weight: 200;
+    letter-spacing: -2px;
+    color: #1d1d1f;
+    line-height: 1;
+    margin: 6px 0 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .timer-phase-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 2px;
+  }
+  .timer-progress-wrap {
+    height: 4px;
+    background: #e5e5ea;
+    border-radius: 2px;
+    margin: 12px 0 14px;
+    overflow: hidden;
+  }
+  .timer-progress-bar {
+    height: 100%;
+    border-radius: 2px;
+    background: #1a73e8;
+    transition: width 1s linear;
+    width: 100%;
+  }
+  .timer-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .btn-start {
+    flex: 1;
+    background: #1d1d1f;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-start:active { opacity: 0.8; }
+  .btn-reset {
+    background: #f1f3f4;
+    color: #5f6368;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-reset:active { opacity: 0.8; }
+  .voice-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #6e6e73;
+    cursor: pointer;
+    user-select: none;
+  }
+  .voice-toggle input { cursor: pointer; }
+  .timer-done-msg {
+    display: none;
+    font-size: 14px;
+    color: #1e7e34;
+    margin-top: 8px;
+    font-weight: 500;
+  }
 </style>
 </head>
 <body>
@@ -158,13 +213,31 @@
 <h1>20分钟正念内观练习</h1>
 
 <div class="timeline-wrap">
-  <div class="timeline">
-    <div class="tl-seg tl-blue"   onclick="jumpTo('p1')">落地 4'</div>
-    <div class="tl-seg tl-gray1"  onclick="jumpTo('p2')">过渡 2'</div>
-    <div class="tl-seg tl-yellow" onclick="jumpTo('p3')">观察 8'</div>
-    <div class="tl-seg tl-gray2"  onclick="jumpTo('p4')">深入 4'</div>
-    <div class="tl-seg tl-green"  onclick="jumpTo('p5')">收尾 4'</div>
+  <div class="timeline" id="timeline">
+    <div class="tl-seg tl-blue"   onclick="jumpTo('p1')" id="tl1">落地 4'</div>
+    <div class="tl-seg tl-gray1"  onclick="jumpTo('p2')" id="tl2">过渡 2'</div>
+    <div class="tl-seg tl-yellow" onclick="jumpTo('p3')" id="tl3">观察 8'</div>
+    <div class="tl-seg tl-gray2"  onclick="jumpTo('p4')" id="tl4">深入 4'</div>
+    <div class="tl-seg tl-green"  onclick="jumpTo('p5')" id="tl5">收尾 4'</div>
   </div>
+</div>
+
+<!-- 计时器 -->
+<div class="timer-card">
+  <div class="timer-phase-label" id="timer-label">准备开始</div>
+  <div class="timer-display" id="timer-display">20:00</div>
+  <div class="timer-phase-name" id="timer-phase-name">20分钟正念练习</div>
+  <div class="timer-progress-wrap">
+    <div class="timer-progress-bar" id="timer-bar"></div>
+  </div>
+  <div class="timer-btns">
+    <button class="btn-start" id="btn-start" onclick="timerToggle()">开始</button>
+    <button class="btn-reset" onclick="timerReset()">重置</button>
+  </div>
+  <label class="voice-toggle">
+    <input type="checkbox" id="voice-on" checked> 语音引导 &amp; 颂钵提醒
+  </label>
+  <div class="timer-done-msg" id="timer-done">练习完成，好好感受一下。</div>
 </div>
 
 <div class="phase open" id="p1">
@@ -273,31 +346,223 @@
 </div>
 
 <script>
+// ── 颂钵音合成 ──────────────────────────────────────────
+function playBowl(ctx, duration) {
+  // 颂钵：基频 + 泛音叠加，缓慢衰减
+  const freqs = [220, 440, 660, 880];
+  const gains = [0.5, 0.25, 0.12, 0.06];
+  freqs.forEach((f, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(f, ctx.currentTime);
+    // 轻微颤音
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    lfo.frequency.value = 5;
+    lfoGain.gain.value = 1.5;
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+    lfo.start();
+    lfo.stop(ctx.currentTime + duration);
+
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(gains[i], ctx.currentTime + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration);
+  });
+}
+
+// ── 语音播报 ──────────────────────────────────────────
+const PHASE_VOICES = [
+  '身体落地。坐定，闭眼。不刻意放松，只是注意——头、肩、胸、腹、手，依次扫过。',
+  '过渡。在脑海里找一个最近真实发生的时刻。找到了就停在那里，不要开始解释它。',
+  '结构观察。先问自己：在那个时刻，我对自己说了什么？听那个内在声音，只是听见它。',
+  '深入。把注意力留在那个感受上。不需要处理它，只是允许它在那里。',
+  '收尾。把注意力回到呼吸上。做三次自然的深呼吸。不需要得出任何结论。',
+];
+
+function speak(text) {
+  if (!document.getElementById('voice-on').checked) return;
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'zh-CN';
+  utter.rate = 0.78;
+  utter.pitch = 0.85;
+  utter.volume = 0.9;
+  // 尝试选低沉女声
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v =>
+    v.lang.startsWith('zh') && /female|woman|tingting|meijia|sinji|li-mu|xiaoxiao/i.test(v.name)
+  ) || voices.find(v => v.lang.startsWith('zh'));
+  if (preferred) utter.voice = preferred;
+  window.speechSynthesis.speak(utter);
+}
+
+// ── 计时器核心 ──────────────────────────────────────────
+// 阶段定义：[名称, 秒数, 时间轴id, 卡片id, 颜色]
+const PHASES = [
+  { name: '身体落地',   secs: 4*60, tlId: 'tl1', cardId: 'p1', color: '#1a73e8' },
+  { name: '过渡',       secs: 2*60, tlId: 'tl2', cardId: 'p2', color: '#5f6368' },
+  { name: '结构观察',   secs: 8*60, tlId: 'tl3', cardId: 'p3', color: '#b7791f' },
+  { name: '深入',       secs: 4*60, tlId: 'tl4', cardId: 'p4', color: '#5f6368' },
+  { name: '收尾',       secs: 4*60, tlId: 'tl5', cardId: 'p5', color: '#1e7e34' },
+];
+const TOTAL_SECS = PHASES.reduce((s, p) => s + p.secs, 0);
+
+let audioCtx = null;
+let timerInterval = null;
+let running = false;
+let currentPhase = 0;
+let secsLeft = PHASES[0].secs;
+let totalLeft = TOTAL_SECS;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function fmt(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+function updateUI() {
+  const p = PHASES[currentPhase];
+  document.getElementById('timer-display').textContent = fmt(secsLeft);
+  document.getElementById('timer-label').textContent =
+    `阶段 ${currentPhase+1} / 5`;
+  document.getElementById('timer-phase-name').textContent = p.name;
+  document.getElementById('timer-bar').style.background = p.color;
+  const pct = (secsLeft / p.secs) * 100;
+  document.getElementById('timer-bar').style.width = pct + '%';
+  // 高亮时间轴
+  PHASES.forEach((ph, i) => {
+    const el = document.getElementById(ph.tlId);
+    if (el) el.classList.toggle('active', i === currentPhase && running);
+  });
+}
+
+function enterPhase(idx) {
+  currentPhase = idx;
+  secsLeft = PHASES[idx].secs;
+  updateUI();
+  if (!document.getElementById('voice-on').checked) return;
+  const ctx = getAudioCtx();
+  playBowl(ctx, 6);
+  setTimeout(() => speak(PHASE_VOICES[idx]), 2200);
+  // 展开对应卡片并滚动
+  const cardId = PHASES[idx].cardId;
+  const card = document.getElementById(cardId);
+  if (card && !card.classList.contains('open')) card.classList.add('open');
+}
+
+function timerTick() {
+  secsLeft--;
+  totalLeft--;
+  updateUI();
+  if (secsLeft <= 0) {
+    if (currentPhase < PHASES.length - 1) {
+      enterPhase(currentPhase + 1);
+    } else {
+      // 全部完成
+      timerFinish();
+    }
+  }
+}
+
+function timerToggle() {
+  if (running) {
+    // 暂停
+    clearInterval(timerInterval);
+    running = false;
+    document.getElementById('btn-start').textContent = '继续';
+    PHASES.forEach(ph => {
+      const el = document.getElementById(ph.tlId);
+      if (el) el.classList.remove('active');
+    });
+  } else {
+    // 开始 / 继续
+    getAudioCtx(); // 解锁 AudioContext（需用户手势）
+    running = true;
+    document.getElementById('btn-start').textContent = '暂停';
+    document.getElementById('timer-done').style.display = 'none';
+    if (secsLeft === PHASES[currentPhase].secs && currentPhase === 0 && totalLeft === TOTAL_SECS) {
+      // 首次开始
+      enterPhase(0);
+    } else {
+      updateUI();
+    }
+    timerInterval = setInterval(timerTick, 1000);
+  }
+}
+
+function timerFinish() {
+  clearInterval(timerInterval);
+  running = false;
+  document.getElementById('btn-start').textContent = '开始';
+  document.getElementById('timer-display').textContent = '00:00';
+  document.getElementById('timer-label').textContent = '练习完成';
+  document.getElementById('timer-phase-name').textContent = '';
+  document.getElementById('timer-bar').style.width = '0%';
+  document.getElementById('timer-done').style.display = 'block';
+  PHASES.forEach(ph => {
+    const el = document.getElementById(ph.tlId);
+    if (el) el.classList.remove('active');
+  });
+  if (document.getElementById('voice-on').checked) {
+    const ctx = getAudioCtx();
+    playBowl(ctx, 8);
+    setTimeout(() => speak('练习完成。好好感受一下。'), 2500);
+  }
+}
+
+function timerReset() {
+  clearInterval(timerInterval);
+  running = false;
+  currentPhase = 0;
+  secsLeft = PHASES[0].secs;
+  totalLeft = TOTAL_SECS;
+  document.getElementById('btn-start').textContent = '开始';
+  document.getElementById('timer-label').textContent = '准备开始';
+  document.getElementById('timer-phase-name').textContent = '20分钟正念练习';
+  document.getElementById('timer-display').textContent = '20:00';
+  document.getElementById('timer-bar').style.width = '100%';
+  document.getElementById('timer-bar').style.background = '#1a73e8';
+  document.getElementById('timer-done').style.display = 'none';
+  PHASES.forEach(ph => {
+    const el = document.getElementById(ph.tlId);
+    if (el) el.classList.remove('active');
+  });
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+// ── 原有功能 ──────────────────────────────────────────
 function toggle(id) {
-  const el = document.getElementById(id);
-  el.classList.toggle('open');
+  document.getElementById(id).classList.toggle('open');
 }
 
 function jumpTo(id) {
   const el = document.getElementById(id);
   el.classList.add('open');
-  setTimeout(() => {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 50);
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
 }
 
-// 记录功能
 const STORAGE_KEY = 'mindfulness_records';
-
 function getRecords() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
   catch(e) { return []; }
 }
-
 function saveRecord() {
-  const moment = document.getElementById('rec-moment').value.trim();
+  const moment  = document.getElementById('rec-moment').value.trim();
   const superego = document.getElementById('rec-superego').value.trim();
-  const ego = document.getElementById('rec-ego').value.trim();
+  const ego     = document.getElementById('rec-ego').value.trim();
   const feeling = document.getElementById('rec-feeling').value.trim();
   if (!moment && !superego && !ego && !feeling) return;
   const records = getRecords();
@@ -309,22 +574,17 @@ function saveRecord() {
     String(now.getMinutes()).padStart(2,'0');
   records.unshift({ date: dateStr, moment, superego, ego, feeling });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-  document.getElementById('rec-moment').value = '';
-  document.getElementById('rec-superego').value = '';
-  document.getElementById('rec-ego').value = '';
-  document.getElementById('rec-feeling').value = '';
+  ['rec-moment','rec-superego','rec-ego','rec-feeling'].forEach(id => document.getElementById(id).value = '');
   renderRecords();
   document.getElementById('save-tip').style.display = 'block';
   setTimeout(() => document.getElementById('save-tip').style.display = 'none', 1500);
 }
-
 function deleteRecord(index) {
   const records = getRecords();
   records.splice(index, 1);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
   renderRecords();
 }
-
 function renderRecords() {
   const records = getRecords();
   const container = document.getElementById('records-list');
@@ -336,9 +596,9 @@ function renderRecords() {
     <div style="background:#f5f5f7;border-radius:10px;padding:12px 14px;margin-bottom:10px;position:relative">
       <div style="font-size:11px;color:#6e6e73;margin-bottom:8px;font-weight:500">${r.date}</div>
       ${r.moment   ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#6e6e73">时刻：</span>${r.moment}</p>` : ''}
-      ${r.superego  ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#b7791f">超我：</span>${r.superego}</p>` : ''}
-      ${r.ego       ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#1a73e8">自我：</span>${r.ego}</p>` : ''}
-      ${r.feeling   ? `<p style="font-size:13px;margin-bottom:0"><span style="color:#1e7e34">感受：</span>${r.feeling}</p>` : ''}
+      ${r.superego ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#b7791f">超我：</span>${r.superego}</p>` : ''}
+      ${r.ego      ? `<p style="font-size:13px;margin-bottom:4px"><span style="color:#1a73e8">自我：</span>${r.ego}</p>` : ''}
+      ${r.feeling  ? `<p style="font-size:13px;margin-bottom:0"><span style="color:#1e7e34">感受：</span>${r.feeling}</p>` : ''}
       <button onclick="deleteRecord(${i})" style="position:absolute;top:10px;right:10px;background:none;border:none;color:#c7c7cc;font-size:16px;cursor:pointer;padding:2px 6px">×</button>
     </div>
   `).join('');
@@ -346,8 +606,11 @@ function renderRecords() {
 
 window.onload = function() {
   renderRecords();
-  // 让记录和历史区域的toggle也能工作
-  document.getElementById('prec') && null;
+  // 预加载语音列表
+  if (window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+  }
 };
 </script>
 
